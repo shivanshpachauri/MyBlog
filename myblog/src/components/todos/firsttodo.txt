@@ -1,0 +1,45 @@
+8 add functionality to post deletion------50% done
+    8 a have to display a message after post is deleted
+9 add functionality to post updation--------50%done
+    9 a have to display message after the post has been updated
+
+
+________________________________________________________________
+7 handle from submission in the postcreation---50% done
+
+    7 b add some dynamic functionality
+    7 a have to add some styling like font capitalise button to format the text
+________________________________________________________________
+2 handled form submission in login -----
+
+    2.1 add a encryption like bcrypt in login backend
+    2.2 add some form validation
+________________________________________________________________
+
+2 add routing in the app component and navbar ----- done
+
+________________________________________________________________
+
+4 once the user clicks on add button wrap it in the context to be accessed by every element
+
+________________________________________________________________
+
+5 connect the post addition to the backend of postgresql -------50% done
+
+    5 a add some middleware for dynamic route functionality using ROUTER.route()
+    5 b add some encryption like bcrypt
+    5 c 
+________________________________________________________________
+
+6 place the items in the center ---done
+
+
+________________________________________________________________
+1 add styling to the whole blog ---25 % done
+2 add some animation with framer motion
+________________________________________________________________
+have to add a footer with appropriate date time 
+________________________________________________________________
+jumbotron
+________________________________________________________________
+sidebar
