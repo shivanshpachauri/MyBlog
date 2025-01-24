@@ -1,0 +1,9 @@
+#postupdate {
+  /* display: flex; */
+  /* justify-content: center !important; */
+  background-color: rgba(171, 192, 233, 0.737);
+  height: 500px;
+  border-radius: 1%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  width: 1050px;
+}

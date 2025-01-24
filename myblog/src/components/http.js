@@ -20,7 +20,7 @@ export async function fetchblogs() {
   }
   return await response.json();
 }
-export function postblog(title, body) {
+export async function postblog({ title, body }) {
   const response = fetch("http://localhost:5173/api/create", {
     method: "POST",
     headers: {
@@ -28,10 +28,12 @@ export function postblog(title, body) {
     },
     body: JSON.stringify({ title: title, body: body }),
   });
-  if (!response.ok) {
-    throw new Error("error");
-  }
-  return response.json();
+  console.log(response);
+
+  // if (!response.ok) {
+  //   throw new Error("error");
+  // }
+  // return response.json();
 }
 
 export async function updateblog(title, body) {

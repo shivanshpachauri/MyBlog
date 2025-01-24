@@ -1,4 +1,5 @@
 import "./App.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import React from "react";
 import Navbar from "./components/Navbar";
@@ -9,12 +10,21 @@ import PostUpdate from "./components/postupdate";
 import PostDeletion from "./components/postdelete.js";
 import HtmlForm from "./components/loginform.js";
 import RegisterForm from "./components/registrationform.js";
+import Footer from "./components/Footer.js";
+
+const queryclient = new QueryClient();
+
 export default function App() {
   const router = createBrowserRouter([
     {
       path: "/",
-      element: <Navbar />,
-      // loader: () => fetchblogs(),
+      element: (
+        <>
+          <Navbar />
+          {/* <Header />, */}
+          <Footer />
+        </>
+      ),
       errorElement: <h1 className="text-center">error</h1>,
       children: [
         {
@@ -46,24 +56,8 @@ export default function App() {
     },
   ]);
   return (
-    <RouterProvider router={router}></RouterProvider>
-    // <div>
-    //   {/* <h1>hello world</h1> */}
-    //   <Navbar />
-    //   <hr />
-    //   <HtmlForm />
-    //   <hr />
-    //   <Header />
-    //   <hr />
-    //   <PostCreation />
-    //   <hr />
-
-    //   <PostViewing />
-    //   <hr />
-
-    //   <PostUpdate />
-    //   {/*
-    //   <PostDeletion /> */}
-    // </div>
+    <QueryClientProvider client={queryclient}>
+      <RouterProvider router={router}></RouterProvider>
+    </QueryClientProvider>
   );
 }

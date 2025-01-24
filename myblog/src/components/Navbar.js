@@ -1,7 +1,30 @@
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import { fetchblogs } from "./http";
+
 import { NavLink, Outlet } from "react-router-dom";
-import Footer from "./Footer";
 export default function Navbar() {
+  const { isLoading, isError } = useQuery({
+    queryKey: ["blogskey"],
+    queryFn: fetchblogs,
+  });
+  if (isError) {
+    <h1>Error in fetching</h1>;
+  }
+  if (isLoading) {
+    return (
+      <center className="m-4 p-2">
+        <button className=" text-center btn btn-primary" type="button" disabled>
+          <span
+            className="spinner-border spinner-border-sm"
+            role="status"
+            aria-hidden="true"
+          ></span>
+          Loading...
+        </button>
+      </center>
+    );
+  }
   return (
     <>
       <nav
@@ -9,7 +32,7 @@ export default function Navbar() {
         style={{ marginBottom: "20px", backgroundColor: "#E8F9FF" }}
       >
         <div className="container">
-          <a href="/home" className="navbar-brand">
+          <a href="/" className="navbar-brand">
             MyBlog
           </a>
           <button
@@ -31,7 +54,7 @@ export default function Navbar() {
                 </NavLink>
               </li>
               <li className="nav-item">
-                <NavLink to="/view" className="nav-link" href="#">
+                <NavLink to="/view" className="nav-link">
                   View
                 </NavLink>
               </li>
@@ -60,7 +83,7 @@ export default function Navbar() {
               />
               <button
                 className="btn btn-outline-success my-2 my-sm-0"
-                type="submit"
+                type="search"
               >
                 Search
               </button>
@@ -69,7 +92,6 @@ export default function Navbar() {
         </div>
       </nav>
       <Outlet />
-      <Footer />
     </>
   );
 }

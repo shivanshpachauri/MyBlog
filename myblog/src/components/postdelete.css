@@ -1,0 +1,10 @@
+#postdeletecontainer {
+  background-color: rgb(188, 209, 232);
+
+  border-radius: 1%;
+  text-shadow: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+#posts {
+  background-color: rgb(152, 152, 235);
+}

@@ -1,3 +1,6 @@
+have to fix this functionality with the header and the outlet
+
+
 8 add functionality to post deletion------50% done
     8 a have to display a message after post is deleted
 9 add functionality to post updation--------50%done

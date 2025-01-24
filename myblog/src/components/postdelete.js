@@ -1,48 +1,65 @@
-import React, { useState } from "react";
+import React from "react";
+import "./postdelete.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { fetchblogs, deleteblog } from "./http.js";
+import { deleteblog } from "./http.js";
+import { useQuery } from "@tanstack/react-query";
 const PostDelete = () => {
   const [posts, setPosts] = React.useState([]);
+  const [deletestate, setdeletestate] = React.useState(false);
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["blogskey"],
+  });
   React.useEffect(() => {
-    const fetchdata = async () => {
-      try {
-        const result = await fetchblogs();
-        setPosts(result);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchdata();
-  }, []);
-  // console.log(posts);
+    setPosts(data);
+  }, [data]);
 
-  // const [posts, setPosts] = useState(["Post 1", "Post 2", "Post 3"]);
-
+  if (isLoading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center">
+        <div
+          className="spinner-border text-primary spinner-border-sm"
+          role="status"
+        >
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+  if (isError) {
+    return <h1>Error in fetching data</h1>;
+  }
   const handleDelete = (post, index) => {
     deleteblog(post.title, post.body);
-    // console.log("title=\n", post.title, "body=\n", post.body);
+    setdeletestate(true);
     const newPosts = [...posts];
     newPosts.splice(index, 1);
 
-    // deleteblog(post[index].title, post[index].body);
     setPosts(newPosts);
-    // deleteblog(post[index].title, post[index].body);
   };
 
   return (
-    <div className="container mt-4">
+    <div id="postdeletecontainer" className="container mt-4">
       <h2 className="text-center fw-bold fs-1 m-4">Posts</h2>
       <hr style={{ opacity: "100%" }} />
+      {deletestate ? (
+        <div className="alert alert-info text-capitalize" role="alert">
+          <strong>deleted success</strong>
+        </div>
+      ) : undefined}
       <ul className="list-group">
         {posts.map((post, index) => (
           <li
             key={index}
             className="list-group-item d-flex justify-content-between align-items-center shadow-sm p-3 mb-5 bg-body rounded text-capitalize"
+            id="posts"
           >
-            <h1 className="fs-4 fw-bold m-3">{post.title}</h1>
-            <p className="m-2 p-1">
+            <h1 className="fs-4 fw-bold m-3" id="posttitle">
+              {post.title}
+            </h1>
+            <p className="m-2 p-1" id="postbody">
               <small>{post.body}</small>
             </p>
+
             <button
               className="btn btn-danger btn-sm"
               onClick={() => handleDelete(post, index)}

@@ -1,12 +1,20 @@
-// import React from "react";
-import { fetchblogs, updateblog } from "./http";
+import "./postupdate.css";
+import { updateblog } from "./http";
 import { Button } from "react-bootstrap";
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
 export default function Postupdate() {
-  const [data, setdata] = React.useState([]);
+  const [data1, setdata] = React.useState([]);
   const [editingIndex, setEditingIndex] = React.useState(null);
   const [editValue, setEditValue] = React.useState("");
+  const [editingcompleted, seteditingcompleted] = React.useState(false);
 
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["blogskey"],
+  });
+  React.useEffect(() => {
+    setdata(data);
+  }, [data]);
   function handleClick(index, item) {
     setEditingIndex(index);
     setEditValue(item.body);
@@ -14,25 +22,13 @@ export default function Postupdate() {
 
   async function handleSave(index, item) {
     const response = await updateblog(item.title, editValue);
+    console.log(response);
 
-    // console.log(item.title, editValue, response);
-
+    seteditingcompleted(true);
     const updatedData = data.map((item, i) =>
       i === index ? { ...item, body: editValue } : item
     );
     setdata(updatedData);
-    console.log(
-      "\n item ",
-      item,
-      "\nindex=",
-      index,
-      "\ndata=",
-      data,
-      "\nupdatedData=",
-      updatedData,
-      "\nedit value=",
-      editValue
-    );
 
     setEditingIndex(null);
   }
@@ -40,88 +36,95 @@ export default function Postupdate() {
   function handleChange(event) {
     setEditValue(event.target.value);
   }
-
-  React.useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await fetchblogs();
-        setdata(result);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchData();
-  }, []);
+  if (isLoading) {
+    return (
+      <div className="d-flex justify-content-center align-items-center">
+        <div
+          className="spinner-border text-primary spinner-border-sm"
+          role="status"
+        >
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+  if (isError) {
+    return <h1>Error in fetching</h1>;
+  }
 
   return (
-    <div className="table-responsive mt-4 m-4 justify-content-center text-capitalize fit-content">
-      <h1 className="text-center text-capitalize fw-bolder m-4">My blog</h1>
-
-      <h2 className="text-center text-capitalize fw-bolder m-4">Table</h2>
-      <center>
-        <table
-          style={{ width: "1050px", justifyContent: "center" }}
-          className="table table-striped table-hover table-borderless   align-middle"
-        >
-          <thead className="text-center text-capitalize fs-3 table-light">
-            <tr>
-              <th>Title</th>
-              <th>Body</th>
-              <th>Button</th>
-            </tr>
-          </thead>
-          <tbody className="table-group-divider">
-            {data.map((item, index) => {
-              return (
-                <tr key={index} className=" ">
-                  <td
-                    style={{
-                      display: "flex",
-                      wrapcontent: "wrap",
-                      justifyContent: "center",
-                    }}
-                    className="text-capitalize text-center fs-5 fw-bolder m-1"
-                  >
-                    {item.title}
-                  </td>
-                  {editingIndex === index ? (
-                    <td>
-                      <input
-                        type="text"
-                        value={editValue}
-                        onChange={handleChange}
-                        style={{ width: "500px" }}
-                        className="d-flex rounded"
-                      />
+    <center>
+      <div
+        id="postupdate"
+        className="table-responsive mt-4 m-4 justify-content-center text-capitalize fit-content"
+      >
+        <h1 className="text-center text-capitalize fw-bolder m-4">My blog</h1>
+        <hr />
+        <h2 className="text-center text-capitalize fw-bolder m-4">Table</h2>
+        <hr />
+        <center>
+          <table
+            style={{ width: "1050px", justifyContent: "center" }}
+            className="table table-striped table-hover table-borderless  align-middle"
+          >
+            <thead className="text-center text-capitalize fs-3 ">
+              <tr>
+                <th>Title</th>
+                <th>Body</th>
+                <th>Button</th>
+              </tr>
+            </thead>
+            <tbody className="table-group-divider">
+              {data1.map((item, index) => {
+                return (
+                  <tr key={index} className=" ">
+                    <td className="text-capitalize text-center fs-5 fw-bolder m-1">
+                      {item.title}
                     </td>
-                  ) : (
-                    <td className="fw-small m-1">{item.body}</td>
-                  )}
-                  <td>
-                    <Button
-                      variant="primary"
-                      className="m-1"
-                      onClick={() => handleClick(index, item)}
-                    >
-                      Update
-                    </Button>
-                    {editingIndex === index && (
-                      <Button
-                        variant="success"
-                        className="m-1"
-                        onClick={() => handleSave(index, item)}
-                      >
-                        Save
-                      </Button>
+                    {editingIndex === index ? (
+                      <td>
+                        <input
+                          type="text"
+                          value={editValue}
+                          onChange={handleChange}
+                          style={{ width: "500px" }}
+                          className="d-flex rounded"
+                        />
+                      </td>
+                    ) : (
+                      <td className="fw-small m-1">{item.body}</td>
                     )}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-          <tfoot></tfoot>
-        </table>
-      </center>
-    </div>
+                    <td>
+                      <Button
+                        variant="primary"
+                        className="m-1"
+                        onClick={() => handleClick(index, item)}
+                      >
+                        Update
+                      </Button>
+                      {editingIndex === index && (
+                        <Button
+                          variant="success"
+                          className="m-1"
+                          onClick={() => handleSave(index, item)}
+                        >
+                          Save
+                        </Button>
+                      )}
+                      {editingcompleted && (
+                        <div class="alert alert-danger" role="alert">
+                          <strong>Updated successfully</strong>
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+            <tfoot></tfoot>
+          </table>
+        </center>
+      </div>
+    </center>
   );
 }
