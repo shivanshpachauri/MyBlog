@@ -1,33 +1,33 @@
 import React from "react";
 import { postemail } from "./http";
 import RegisterForm from "./registrationform";
+import "./loginform.css";
 export default function HtmlForm() {
+  const [form, setform] = React.useState({
+    email: "",
+    password: "",
+  });
+  const [formstate, setformstate] = React.useState(false);
   const emailref = React.useRef();
   const passwordref = React.useRef();
-  //   console.log(emailref.current.value, passwordref.current.value);
-  async function handlesubmit(e) {
+  function handlesubmit(e) {
     e.preventDefault();
     const email = emailref.current.value;
     const password = passwordref.current.value;
-    const response = await postemail(email, password);
-
-    console.log(response);
-
-    // console.log(emailref.current.value, passwordref.current.value);
-    // console.log("hello world");
+    const response = postemail(email, password);
+    setformstate(true);
+    setform({
+      email: "",
+      password: "",
+    });
   }
-  function handleclick() {
-    console.log(emailref.current.value, passwordref.current.value);
 
-    // emailref.current.value = "";
-    // passwordref.current.value = "";
-  }
   return (
     <div
+      id="loginform"
       className="mt-4 container border border-primary justify-content-center"
-      // width="100px"
-      // height="100px"
     >
+      <h1 className="m-1 p-2 text-center"> Login form</h1>
       <form className="mt-4" onSubmit={handlesubmit}>
         <label htmlFor="email" className="form-label">
           <strong>Email</strong>
@@ -40,8 +40,10 @@ export default function HtmlForm() {
           id="formemail"
           aria-describedby="emailHelpId"
           placeholder="abc@mail.com"
-          // width="100px"
-          // height="100px"
+          value={form.email}
+          onChange={(e) => {
+            setform({ ...form, email: e.target.value });
+          }}
         />
 
         <label htmlFor="password" className="mt-2 form-label">
@@ -54,15 +56,19 @@ export default function HtmlForm() {
           name="password"
           id="formpassword"
           placeholder=""
+          value={form.password}
+          onChange={(e) => {
+            setform({ ...form, password: e.target.value });
+          }}
         />
-        <button
-          type="submit"
-          className="m-3 btn btn-primary"
-          onClick={handleclick}
-        >
+        <button type="submit" className="m-3 btn btn-primary">
           Submit
         </button>
-
+        {formstate && (
+          <div class="alert alert-light" role="alert">
+            <strong>Login successfully</strong>
+          </div>
+        )}
         <small id="emailHelpId" className="form-text text-muted">
           Help text
         </small>

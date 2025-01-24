@@ -1,5 +1,5 @@
 label {
-  display: block;
+  /* display: block; */
   margin-top: 1em;
   /* font-size: 1.5rem;
   font-weight: bold;
@@ -7,4 +7,24 @@ label {
 }
 input {
   margin: 1px;
+}
+/* 
+#gendermale {
+  margin: 1px;
+  padding: 1px;
+}
+#genderfemale {
+  margin: 1px;
+  padding: 1px;
+} */
+#dob {
+  display: block;
+  margin: 1px;
+  padding: 1px;
+  /* border-radius: 1%; */
+}
+#registrationform {
+  background-color: rgb(156, 192, 201);
+  border-radius: 1%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }

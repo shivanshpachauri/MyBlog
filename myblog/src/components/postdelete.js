@@ -10,7 +10,11 @@ const PostDelete = () => {
     queryKey: ["blogskey"],
   });
   React.useEffect(() => {
-    setPosts(data);
+    if (data) {
+      setPosts(data);
+    } else {
+      setPosts([]);
+    }
   }, [data]);
 
   if (isLoading) {
@@ -30,6 +34,7 @@ const PostDelete = () => {
   }
   const handleDelete = (post, index) => {
     deleteblog(post.title, post.body);
+    // mutate(post);
     setdeletestate(true);
     const newPosts = [...posts];
     newPosts.splice(index, 1);

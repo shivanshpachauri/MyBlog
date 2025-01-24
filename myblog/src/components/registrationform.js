@@ -11,10 +11,11 @@ export default function RegisterForm() {
     password: "",
     gender: "",
   });
+  const [registrationstate, setregistrationstate] = React.useState(false);
   function handlesubmit(e) {
     e.preventDefault();
-    console.log(register);
     postregister(register);
+    setregistrationstate(true);
     setregister({
       fullname: "",
       username: "",
@@ -26,6 +27,7 @@ export default function RegisterForm() {
   }
   return (
     <form
+      id="registrationform"
       className="container border border-primary p-5"
       onSubmit={handlesubmit}
     >
@@ -37,7 +39,7 @@ export default function RegisterForm() {
             type="text"
             className="form-control"
             name="formId1"
-            id="formId1"
+            id="FullName"
             value={register.fullname}
             onChange={(e) =>
               setregister({ ...register, fullname: e.target.value })
@@ -57,12 +59,12 @@ export default function RegisterForm() {
               }}
             ></input>
           </div>
-          <label htmlFor="formId1">Username</label>
+          <label htmlFor="Username">Username</label>
           <input
             type="text"
             className="form-control"
-            name="formId1"
-            id="formId1"
+            name="Username"
+            id="Username"
             value={register.username}
             onChange={(e) =>
               setregister({ ...register, username: e.target.value })
@@ -75,8 +77,8 @@ export default function RegisterForm() {
           <input
             type="email"
             className="form-control"
-            name="formId1"
-            id="formId1"
+            name="email"
+            id="email"
             value={register.email}
             onChange={(e) =>
               setregister({ ...register, email: e.target.value })
@@ -87,58 +89,54 @@ export default function RegisterForm() {
           <input
             type="password"
             className="form-control"
-            name="formId1"
-            id="formId1"
+            name="Password"
+            id="Password"
             value={register.password}
             onChange={(e) =>
               setregister({ ...register, password: e.target.value })
             }
-            placeholder="Enter your password"
           />
           <label htmlFor="formId1">Confirm Password</label>
           <input
             type="password"
             className="form-control"
-            name="formId1"
-            id="formId1"
-            // value={register.password}
-            // onChange={(e) =>
-            //   setregister({ ...register, password: e.target.value })
-            // }
-            placeholder="confirm password"
+            name="Confirmpassword"
+            id="Confirmpassword"
           />
         </div>
-        <div className="form-group d-block">
+        <div id="gender" className="container mt-3">
           <label htmlFor="gender" className="d-block fs-5">
             Gender
           </label>
           <div className="form-check form-check-inline">
             <input
               className="form-check-input"
-              type="checkbox"
-              id="gender"
+              type="radio"
+              id="gendermale"
+              name="gender"
               value="male"
-              disabled={register.gender === "female"}
+              checked={register.gender === "male"}
               onChange={(e) =>
                 setregister({ ...register, gender: e.target.value })
               }
             />
-            <label className="form-check-label" htmlFor="gender">
+            <label className="form-check-label" htmlFor="gendermale">
               Male
             </label>
           </div>
           <div className="form-check form-check-inline">
             <input
               className="form-check-input"
-              type="checkbox"
-              id="gender"
+              type="radio"
+              id="genderfemale"
+              name="gender"
               value="female"
-              disabled={register.gender === "male"}
+              checked={register.gender === "female"}
               onChange={(e) =>
                 setregister({ ...register, gender: e.target.value })
               }
             />
-            <label className="form-check-label" htmlFor="">
+            <label className="form-check-label" htmlFor="genderfemale">
               Female
             </label>
           </div>
@@ -147,6 +145,11 @@ export default function RegisterForm() {
       <Button type="submit" className="btn btn-primary">
         Submit
       </Button>
+      {registrationstate && (
+        <div className="alert alert-primary" role="alert">
+          <strong>registered successfully</strong>
+        </div>
+      )}
     </form>
   );
 }

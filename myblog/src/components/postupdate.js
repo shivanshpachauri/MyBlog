@@ -20,8 +20,8 @@ export default function Postupdate() {
     setEditValue(item.body);
   }
 
-  async function handleSave(index, item) {
-    const response = await updateblog(item.title, editValue);
+  function handleSave(index, item) {
+    const response = updateblog(item.title, editValue);
     console.log(response);
 
     seteditingcompleted(true);
@@ -58,9 +58,15 @@ export default function Postupdate() {
         id="postupdate"
         className="table-responsive mt-4 m-4 justify-content-center text-capitalize fit-content"
       >
-        <h1 className="text-center text-capitalize fw-bolder m-4">My blog</h1>
+        <div id="myblogid" className="container">
+          <h1 className="text-center text-capitalize fw-bolder m-4">My blog</h1>
+        </div>
         <hr />
-        <h2 className="text-center text-capitalize fw-bolder m-4">Table</h2>
+        <div id="tabletitleid" className="container">
+          <h2 className="text-center text-capitalize fw-bolder m-4">
+            <em>Table</em>
+          </h2>
+        </div>
         <hr />
         <center>
           <table
@@ -95,14 +101,7 @@ export default function Postupdate() {
                       <td className="fw-small m-1">{item.body}</td>
                     )}
                     <td>
-                      <Button
-                        variant="primary"
-                        className="m-1"
-                        onClick={() => handleClick(index, item)}
-                      >
-                        Update
-                      </Button>
-                      {editingIndex === index && (
+                      {editingIndex === index ? (
                         <Button
                           variant="success"
                           className="m-1"
@@ -110,9 +109,17 @@ export default function Postupdate() {
                         >
                           Save
                         </Button>
+                      ) : (
+                        <Button
+                          variant="primary"
+                          className="m-1"
+                          onClick={() => handleClick(index, item)}
+                        >
+                          Update
+                        </Button>
                       )}
-                      {editingcompleted && (
-                        <div class="alert alert-danger" role="alert">
+                      {editingcompleted && editingIndex === null && (
+                        <div className="alert alert-success m-1" role="alert">
                           <strong>Updated successfully</strong>
                         </div>
                       )}

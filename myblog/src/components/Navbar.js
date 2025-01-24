@@ -3,7 +3,11 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchblogs } from "./http";
 
 import { NavLink, Outlet } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import Header from "./Header";
 export default function Navbar() {
+  const location = useLocation();
+
   const { isLoading, isError } = useQuery({
     queryKey: ["blogskey"],
     queryFn: fetchblogs,
@@ -92,6 +96,7 @@ export default function Navbar() {
         </div>
       </nav>
       <Outlet />
+      {location.pathname === "/" && <Header />}
     </>
   );
 }
