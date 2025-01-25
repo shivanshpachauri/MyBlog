@@ -1,7 +1,7 @@
 // import React from "react";
-export async function postemail(email, password) {
+export async function checkemail(email, password) {
   const response = await fetch("http://localhost:5173/api/login", {
-    method: "POST",
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },
@@ -10,7 +10,9 @@ export async function postemail(email, password) {
   if (!response.ok) {
     throw new Error("error");
   }
-  return response.json();
+  const data = await response.json();
+
+  return data;
 }
 
 export async function fetchblogs() {
@@ -21,7 +23,7 @@ export async function fetchblogs() {
   return await response.json();
 }
 export async function postblog({ title, body }) {
-  const response = fetch("http://localhost:5173/api/create", {
+  const response = await fetch("http://localhost:5173/api/create", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -30,10 +32,10 @@ export async function postblog({ title, body }) {
   });
   console.log(response);
 
-  // if (!response.ok) {
-  //   throw new Error("error");
-  // }
-  // return response.json();
+  if (!response.ok) {
+    throw new Error("error");
+  }
+  return response.json();
 }
 
 export async function updateblog(title, body) {

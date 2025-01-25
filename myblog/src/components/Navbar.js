@@ -4,7 +4,8 @@ import { fetchblogs } from "./http";
 
 import { NavLink, Outlet } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import Header from "./Header";
+// import Header from "./Header";
+import HtmlForm from "./loginform.js";
 export default function Navbar() {
   const location = useLocation();
 
@@ -96,7 +97,7 @@ export default function Navbar() {
         </div>
       </nav>
       <Outlet />
-      {location.pathname === "/" && <Header />}
+      {location.pathname === "/" && <HtmlForm />}
     </>
   );
 }

@@ -31,23 +31,26 @@ pool1
   .catch((err) => {
     console.log(err);
   });
-pool1.query("create table if not exists Login(email text,password text)");
-app.post("/api/login", async (req, res) => {
+
+pool1.query(
+  "create table if not exists register(fullname text,dob text,username text,gender text,email text,password text)"
+);
+app.patch("/api/login", async (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
 
   try {
-    const insert = await pool1.query(
-      "INSERT INTO Login (email,password) VALUES ($1,$2)",
+    const check = await pool1.query(
+      "select email, password from register where email=$1 and password=$2",
       [email, password]
     );
 
-    console.log(insert);
+    console.log(check);
+    res.send(check.rows);
   } catch (err) {
     console.log(err);
+    res.status(500).send("Error logging in");
   }
-
-  res.send("Login successful");
 });
 
 pool1.query("create table if not exists Blog(title text,body text)");
@@ -91,9 +94,6 @@ app.delete("/api/delete", async (req, res) => {
   res.send("Row deleted");
 });
 
-pool1.query(
-  "create table if not exists register(fullname text,dob text,username text,gender text,email text,password text)"
-);
 app.post("/api/register", async (req, res) => {
   try {
     const { email, password, fullname, gender, dob, username } = req.body;

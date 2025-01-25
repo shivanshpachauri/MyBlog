@@ -1,20 +1,45 @@
 import React from "react";
-import { postemail } from "./http";
-import RegisterForm from "./registrationform";
+import { checkemail } from "./http";
 import "./loginform.css";
+import { useNavigate } from "react-router-dom";
 export default function HtmlForm() {
+  const navigate = useNavigate();
   const [form, setform] = React.useState({
     email: "",
     password: "",
   });
   const [formstate, setformstate] = React.useState(false);
+  const [correctemailpassword, setcorrectemailpassword] = React.useState({
+    email: false,
+    password: false,
+  });
   const emailref = React.useRef();
   const passwordref = React.useRef();
+  async function check(email, password) {
+    const response = await checkemail(email, password);
+    if (response[0].email === email) {
+      setcorrectemailpassword((prevState) => ({ ...prevState, email: true }));
+    }
+    if (response[0].password === password) {
+      setcorrectemailpassword((prevState) => ({
+        ...prevState,
+        password: true,
+      }));
+    }
+
+    if (response[0].email === email && response[0].password === password) {
+      setTimeout(() => {
+        navigate("/home");
+      }, 5000);
+      // navigate("/home");
+    }
+  }
   function handlesubmit(e) {
     e.preventDefault();
     const email = emailref.current.value;
     const password = passwordref.current.value;
-    const response = postemail(email, password);
+    check(email, password);
+
     setformstate(true);
     setform({
       email: "",
@@ -32,6 +57,11 @@ export default function HtmlForm() {
         <label htmlFor="email" className="form-label">
           <strong>Email</strong>
         </label>
+        {correctemailpassword.email && (
+          <div className="alert alert-success" role="alert">
+            <strong>Email is correct</strong>
+          </div>
+        )}
         <input
           ref={emailref}
           type="email"
@@ -49,6 +79,12 @@ export default function HtmlForm() {
         <label htmlFor="password" className="mt-2 form-label">
           <strong>Password</strong>
         </label>
+        {correctemailpassword.password && (
+          <div className="alert alert-danger" role="alert">
+            <strong>password is correct</strong>
+          </div>
+        )}
+
         <input
           type="password"
           className=" form-control"
@@ -65,7 +101,7 @@ export default function HtmlForm() {
           Submit
         </button>
         {formstate && (
-          <div class="alert alert-light" role="alert">
+          <div className="alert alert-light" role="alert">
             <strong>Login successfully</strong>
           </div>
         )}
