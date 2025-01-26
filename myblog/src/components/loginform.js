@@ -13,10 +13,17 @@ export default function HtmlForm() {
     email: false,
     password: false,
   });
+  const [incorrectemailpassword, setincorrectemailpassword] =
+    React.useState(false);
   const emailref = React.useRef();
   const passwordref = React.useRef();
   async function check(email, password) {
     const response = await checkemail(email, password);
+    if (response[0] === undefined) {
+      console.log("invalid email and password");
+      setincorrectemailpassword(true);
+      return;
+    }
     if (response[0].email === email) {
       setcorrectemailpassword((prevState) => ({ ...prevState, email: true }));
     }
@@ -28,6 +35,7 @@ export default function HtmlForm() {
     }
 
     if (response[0].email === email && response[0].password === password) {
+      setformstate(true);
       setTimeout(() => {
         navigate("/home");
       }, 5000);
@@ -40,11 +48,15 @@ export default function HtmlForm() {
     const password = passwordref.current.value;
     check(email, password);
 
-    setformstate(true);
     setform({
       email: "",
       password: "",
     });
+  }
+  function handleregister() {
+    setTimeout(() => {
+      navigate("/register");
+    }, 5000);
   }
 
   return (
@@ -100,6 +112,21 @@ export default function HtmlForm() {
         <button type="submit" className="m-3 btn btn-primary">
           Submit
         </button>
+        {incorrectemailpassword && (
+          <>
+            <div class="alert alert-danger" role="alert">
+              <strong>invalid email and password</strong> Click here to register
+            </div>
+
+            <button
+              type="button"
+              class="btn btn-danger"
+              onClick={handleregister}
+            >
+              Register
+            </button>
+          </>
+        )}
         {formstate && (
           <div className="alert alert-light" role="alert">
             <strong>Login successfully</strong>
