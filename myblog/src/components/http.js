@@ -30,7 +30,6 @@ export async function postblog({ title, body }) {
     },
     body: JSON.stringify({ title: title, body: body }),
   });
-  console.log(response);
 
   if (!response.ok) {
     throw new Error("error");

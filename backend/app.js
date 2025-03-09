@@ -20,7 +20,7 @@ const pool1 = new pg.Pool({
   host: "localhost",
   database: "myblog",
   password: "shivansh",
-  port: 5433,
+  port: 5432,
 });
 pool1
   .connect()
@@ -45,7 +45,6 @@ app.patch("/api/login", async (req, res) => {
       [email, password]
     );
 
-    console.log(check);
     res.send(check.rows);
   } catch (err) {
     console.log(err);
@@ -67,7 +66,7 @@ app.put("/api/update", async (req, res) => {
       [title, body]
     );
 
-    res.send("updated successfully");
+    res.json({ message: "Blog updated" });
   } catch (err) {
     console.log(err);
     res.status(500).send("Error updating blog");
@@ -83,7 +82,7 @@ app.post("/api/create", async (req, res) => {
     [title, body]
   );
 
-  res.send("Blog created");
+  res.json({ message: "Blog created" });
 });
 app.delete("/api/delete", async (req, res) => {
   const { title, body } = req.body;
@@ -91,7 +90,8 @@ app.delete("/api/delete", async (req, res) => {
   const result = await pool1.query("DELETE FROM BLOG WHERE TITLE = ($1)", [
     title,
   ]);
-  res.send("Row deleted");
+
+  res.json({ message: "Blog deleted" });
 });
 
 app.post("/api/register", async (req, res) => {
@@ -103,7 +103,7 @@ app.post("/api/register", async (req, res) => {
       [fullname, dob, username, gender, email, password]
     );
 
-    res.send("registered successfully");
+    res.json({ message: "Registered successfully" });
   } catch (err) {
     console.log(err);
   }

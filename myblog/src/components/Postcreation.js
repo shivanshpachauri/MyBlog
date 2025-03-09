@@ -21,7 +21,6 @@ export default function Postcreation() {
       title: "",
       body: "",
     });
-    console.log(response);
   }
   return (
     <div

@@ -22,7 +22,6 @@ export default function Postupdate() {
 
   function handleSave(index, item) {
     const response = updateblog(item.title, editValue);
-    console.log(response);
 
     seteditingcompleted(true);
     const updatedData = data.map((item, i) =>
