@@ -3,8 +3,6 @@ import React from "react";
 export default function Footer() {
   const d = new Date();
   let year = d.getFullYear();
-  //   let month = d.getMonth();
-  //   let day = d.getDay();
   return (
     <div className="container">
       <footer className="py-3 my-4">

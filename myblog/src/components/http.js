@@ -1,4 +1,3 @@
-// import React from "react";
 export async function checkemail(email, password) {
   const response = await fetch("http://localhost:5173/api/login", {
     method: "PATCH",

@@ -39,7 +39,6 @@ export default function HtmlForm() {
       setTimeout(() => {
         navigate("/home");
       }, 5000);
-      // navigate("/home");
     }
   }
   function handlesubmit(e) {

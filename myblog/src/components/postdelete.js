@@ -34,7 +34,6 @@ const PostDelete = () => {
   }
   const handleDelete = (post, index) => {
     deleteblog(post.title, post.body);
-    // mutate(post);
     setdeletestate(true);
     const newPosts = [...posts];
     newPosts.splice(index, 1);

@@ -7,8 +7,6 @@ export default function Header() {
         src="https://picsum.photos/200/300"
         alt="random"
         className="rounded mx-auto d-block"
-        // height={"500px"}
-        // width={"2em"}
         style={{ ObjectFit: "cover" }}
       />
     </div>
